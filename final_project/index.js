@@ -11,7 +11,21 @@ app.use(express.json());
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
 app.use("/customer/auth/*", function auth(req,res,next){
-//Write the authenication mechanism here
+    if(req.session.authorization){
+        token = req.session.authorization['accessToken'];
+        //'Wakistan' is a map in the game 'BattleBit', it's a very good map.
+        //Here I want to try using a different word than 'access'
+        jwt.verify(token, 'wakistan', (err,user)=>{
+            if(!err){
+                req.user = user;
+                next();
+            } else {
+                return res.status(403).json({message: "User token not valid."});
+            }
+        })
+    } else {
+        return res.status(403).json({message: "User does not have a token."})
+    }
 });
  
 const PORT =5000;
