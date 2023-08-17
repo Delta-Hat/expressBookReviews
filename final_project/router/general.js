@@ -40,14 +40,22 @@ public_users.get('/author/:author',function (req, res) {
             results.push(book);
         }
     }
-    //let results = books.filter((book) => book.author == author);
     return res.status(200).send(results);
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+    let title = req.params.title
+    let keys = Object.keys(books);
+    let results = [];
+    for(let i = 0; i < keys.length; i++){
+        let key = keys[i];
+        let book = books[key];
+        if(book.title === title){
+            results.push(book);
+        }
+    }
+    return res.status(200).send(results);
 });
 
 //  Get book review
