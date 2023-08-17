@@ -27,6 +27,12 @@ app.use("/customer/auth/*", function auth(req,res,next){
         return res.status(403).json({message: "User does not have a token."})
     }
 });
+
+app.use("/", (req,res,next) => {
+    console.log("Calling middleware function!");
+    //implement token verification here maybe
+    next();
+});
  
 const PORT =5000;
 
