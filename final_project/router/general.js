@@ -30,7 +30,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-    let author = req.params.author
+    let author = req.params.author.replace("+"," ");
     let keys = Object.keys(books);
     let results = [];
     for(let i = 0; i < keys.length; i++){
@@ -45,7 +45,7 @@ public_users.get('/author/:author',function (req, res) {
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-    let title = req.params.title
+    let title = req.params.title.replace("+"," ");
     let keys = Object.keys(books);
     let results = [];
     for(let i = 0; i < keys.length; i++){
