@@ -62,6 +62,9 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         return res.status(400).send("I'd rather you don't add blank reviews.")
     }
     let book = books[isbn];
+    if(!book){
+        return res.status(404).send("Book not found!");
+    }
     let reviews = book.reviews;
     delete reviews[username];
     reviews[username] = review;
@@ -69,6 +72,20 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     return res.status(200).send("Review added: " + review + " for " + username + ".");
 });
 
+regd_users.delete("/auth/review/:isbn", (req,res) => {
+    const username = req.session.authorization.username;
+    const isbn = req.params.isbn;
+    if(!username){
+        return res.status(500).send("How'd you get here without logging in?");
+    }
+    let book = books[isbn];
+    if(!book){
+        return res.status(404).send("How can one delete that which does not exist?");
+    }
+    let reviews = book.reviews;
+    delete reviews[username];
+    return res.status(200).send("Deleted review! Your terrible opinion will no longer embarase you!");
+});
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
