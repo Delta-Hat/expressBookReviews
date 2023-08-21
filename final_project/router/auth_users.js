@@ -48,8 +48,25 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+    const username = req.session.authorization.username;
+    const isbn = req.params.isbn;
+    const review = req.body.review;
+    console.log(username);
+    console.log(isbn);
+    console.log(review);
+    if(!username){
+        //sends this error because we can't have a review without a username.
+        return res.status(500).send("Error, somehow got authenticated but username is missing.")
+    }
+    if(!review){
+        return res.status(400).send("I'd rather you don't add blank reviews.")
+    }
+    let book = books[isbn];
+    let reviews = book.reviews;
+    delete reviews[username];
+    reviews[username] = review;
+
+    return res.status(200).send("Review added: " + review + " for " + username + ".");
 });
 
 module.exports.authenticated = regd_users;

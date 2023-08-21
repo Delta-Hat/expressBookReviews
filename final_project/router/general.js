@@ -34,7 +34,7 @@ public_users.post("/register", (req,res) => {
 public_users.get('/',function (req, res) {
   //Write your code here
   //return res.status(300).json({message: "Yet to be implemented"});
-  return res.status(200).send(JSON.stringify(books));
+  return res.status(200).send(JSON.stringify(books,null,4));
 });
 
 // Get book details based on ISBN
@@ -42,7 +42,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
     let isbn = req.params.isbn;
     let book = books[isbn];
     if(book){
-        return res.status(200).send(JSON.stringify(book));
+        return res.status(200).send(JSON.stringify(book,null,4));
     }
     return res.status(404).send("Book not found.");
     //return res.status(300).json({message: "Yet to be implemented"});
@@ -84,7 +84,7 @@ public_users.get('/review/:isbn',function (req, res) {
     let book = books[isbn];
     if(book){
         let reviews = book.reviews;
-        return res.status(200).send(JSON.stringify(reviews));
+        return res.status(200).send(JSON.stringify(reviews,null,4));
     }
   
     return res.status(404).send("Book not found!");
