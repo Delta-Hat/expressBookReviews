@@ -34,7 +34,19 @@ public_users.post("/register", (req,res) => {
 public_users.get('/',function (req, res) {
   //Write your code here
   //return res.status(300).json({message: "Yet to be implemented"});
-  return res.status(200).send(JSON.stringify(books,null,4));
+    console.log("calling get")
+    let bookPromise = new Promise((resolve,reject) => {
+        setTimeout(() => {
+            resolve(books)
+        },5000);
+    });
+    bookPromise.then((retrievedBooks) => {
+        return res.status(200).send(JSON.stringify(books,null,4));
+    });
+    bookPromise.catch(() =>{
+        return res.status(404).send("Nope.avi");
+    });
+    console.log("finished calling get, await a response.")
 });
 
 // Get book details based on ISBN
