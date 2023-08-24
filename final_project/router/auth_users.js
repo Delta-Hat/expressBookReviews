@@ -73,6 +73,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 });
 
 regd_users.delete("/auth/review/:isbn", (req,res) => {
+    console.log("Calling delete review.");
     const username = req.session.authorization.username;
     const isbn = req.params.isbn;
     if(!username){
@@ -84,7 +85,7 @@ regd_users.delete("/auth/review/:isbn", (req,res) => {
     }
     let reviews = book.reviews;
     delete reviews[username];
-    return res.status(200).send("Deleted review! Your terrible opinion will no longer embarase you!");
+    return res.status(200).send("Deleted review!");
 });
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
